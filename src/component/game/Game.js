@@ -81,6 +81,7 @@ class Game extends Component {
           </strong>
         );
       }
+
       this.setState((state, props) => ({
         resetCount: state.resetCount + 1,
         homeTeamStats: {
