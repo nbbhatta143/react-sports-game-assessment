@@ -1,23 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
-function App() {
+import Game from "./component/game/Game";
+import dogBasketball from "../src/images/dogBasketball.jpg";
+import raccoonBasketball from "../src/images/raccoonBasketball.jpg";
+import humanBasketball from "../src/images/humanBasketball.png";
+import bunnyBasketball from "../src/images/bunnyBasketball.jpg";
+import Bounces from "../src/sounds/Bounces.mp3";
+import FOOTBALLKICK from "../src/sounds/FOOTBALLKICK.mp3";
+
+function App(props) {
+  const dog = {
+    name: "Dog Basketball Club",
+    logoSrc: dogBasketball,
+  };
+  const raccoon = {
+    name: "Raccoon Basketball",
+    logoSrc: raccoonBasketball,
+  };
+  const human = {
+    name: "People Basketball",
+    logoSrc: humanBasketball,
+  };
+  const bunny = {
+    name: "Bunny National Association",
+    logoSrc: bunnyBasketball,
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Game
+        venue="Animal Arena"
+        homeTeam={dog}
+        visitingTeam={raccoon}
+        bounces={Bounces}
+        score={FOOTBALLKICK}
+      />
+      <Game
+        venue="Human&Bunny Arena"
+        homeTeam={human}
+        visitingTeam={bunny}
+        bounces={Bounces}
+        score={FOOTBALLKICK}
+      />
     </div>
   );
 }
