@@ -5,6 +5,7 @@ import ScoreBoard from "../scoreboard/ScoreBoard";
 class Game extends Component {
   constructor(props) {
     super(props);
+    let winner;
 
     this.state = {
       resetCount: 0,
@@ -23,6 +24,7 @@ class Game extends Component {
   }
 
   shoot = (team) => {
+    this.winner = "";
     const teamStatsKey = `${team}TeamStats`;
     let score = this.state[teamStatsKey].score;
     this.shotSound.play();
@@ -44,17 +46,53 @@ class Game extends Component {
   };
 
   resetGame = () => {
-    this.setState((state, props) => ({
-      resetCount: state.resetCount + 1,
-      homeTeamStats: {
-        shots: 0,
-        score: 0,
-      },
-      visitingTeamStats: {
-        shots: 0,
-        score: 0,
-      },
-    }));
+    if (
+      this.state.visitingTeamStats.shots !== this.state.homeTeamStats.shots ||
+      this.state.visitingTeamStats.shots === 0 ||
+      this.state.homeTeamStats.shots === 0
+    ) {
+      alert("Cannot reset the Game! Make sure both team takes equal shots!");
+    } else {
+      if (this.state.visitingTeamStats.score > this.state.homeTeamStats.score) {
+        this.winner = (
+          <strong>
+            <hr />
+            <mark>
+              {this.props.visitingTeam.name} won the game with {this.state.visitingTeamStats.score}{" "}
+              to {this.state.homeTeamStats.score}!
+            </mark>
+          </strong>
+        );
+      } else if (this.state.visitingTeamStats.score < this.state.homeTeamStats.score) {
+        this.winner = (
+          <strong>
+            <hr />
+            <mark>
+              {this.props.homeTeam.name} won the game with {this.state.homeTeamStats.score} to{" "}
+              {this.state.visitingTeamStats.score}!
+            </mark>
+          </strong>
+        );
+      } else {
+        this.winner = (
+          <strong>
+            <hr />
+            Draw!
+          </strong>
+        );
+      }
+      this.setState((state, props) => ({
+        resetCount: state.resetCount + 1,
+        homeTeamStats: {
+          shots: 0,
+          score: 0,
+        },
+        visitingTeamStats: {
+          shots: 0,
+          score: 0,
+        },
+      }));
+    }
   };
 
   render() {
@@ -79,6 +117,7 @@ class Game extends Component {
             <div>
               <strong>Resets:</strong> {this.state.resetCount}
               <button onClick={this.resetGame}>Reset Game</button>
+              <div>{this.winner}</div>
             </div>
           </div>
 
